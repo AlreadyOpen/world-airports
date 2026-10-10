@@ -8,10 +8,11 @@ import json, os
 from huggingface_hub import HfApi, batch_bucket_files, create_bucket
 import manifest, sources
 
-REPO = 'alreadyopen/REPLACE-ME'
-DATASET_FILES = ['index.json']                                         # e.g. the Parquet files
-BUCKET_FILES = ['index.json']                                          # e.g. the PMTiles, JSON tiles
-KAGGLE = ('helenkwok/REPLACE-ME', 'AlreadyOpen: REPLACE ME')            # mirrored by kaggle_mirror.py (title 6-50 chars)
+REPO = 'alreadyopen/world-airports'
+DATASET_FILES = ['index.json', 'airports.parquet', 'runways.parquet', 'navaids.parquet', 'airport-frequencies.parquet',
+                 'countries.csv', 'regions.csv', 'airports.pmtiles', 'runways.pmtiles']
+BUCKET_FILES = ['index.json', 'airports.pmtiles', 'runways.pmtiles', 'airports.parquet', 'runways.parquet']   # the map reads these
+KAGGLE = ('helenkwok/world-airports', 'AlreadyOpen: world airports')            # mirrored by kaggle_mirror.py (title 6-50 chars)
 
 def main():
     o = lambda f: os.path.join(sources.OUT, f); idx = json.load(open(o('index.json')))

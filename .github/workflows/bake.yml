@@ -1,9 +1,9 @@
-# Bake and publish to Hugging Face (bake.py, publish.py). Manual only in the template: add a schedule in your copy, e.g.
-#   schedule:
-#     - cron: '30 19 * * *'          # 03:30 HKT daily
+# Bake and publish to Hugging Face (bake.py, publish.py), weekly: OurAirports updates daily, weekly is enough for a map.
 # Each run commits status/last-run.json: GitHub turns schedules off after 60 days with no commits.
 name: bake
 on:
+  schedule:
+    - cron: '0 21 * * 3'           # Wednesdays 21:00 UTC
   workflow_dispatch:
     inputs:
       force:
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.14'
           cache: pip
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt && sudo apt-get update -q && sudo apt-get install -y -q tippecanoe
       # downloads kept between runs (restore and save are split so the cache is saved even when publish fails)
       - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9   # v6.1.0
         with:
